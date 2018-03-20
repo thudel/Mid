@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.cisc181.core.PersonException;
 
 /*
  * comment
@@ -49,7 +50,6 @@ public abstract class Person implements java.io.Serializable {
 	public void setDOB(Date DOB){
 		this.DOB = DOB;
 		
-		
 	}
 
 	public void setAddress(String newAddress) {
@@ -89,16 +89,41 @@ public abstract class Person implements java.io.Serializable {
 	 */
 
 	public Person(String FirstName, String MiddleName, String LastName,
-			Date DOB, String Address, String Phone_number, String Email)
-	{
+			Date DOB, String Address, String Phone_number, String Email) throws PersonException {
 		this.FirstName = FirstName;
 		this.MiddleName = MiddleName;
 		this.LastName = LastName;
 		this.setDOB(DOB);
+		
+		Date overhundred = new Date(1918,03,20);
+		if(DOB.before(overhundred)) {
+			throw new PersonException(this,"Error, over 100 years old.");
+		}
+		
 		this.address = Address;
 		this.setPhone(Phone_number);
 		this.email_address = Email;
 		
+		try {
+			String regex = "^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$";
+			 
+			Pattern pattern = Pattern.compile(regex);
+			 			
+		    Matcher matcher = pattern.matcher(Phone_number);
+		    //System.out.println(email +" : "+ matcher.matches());
+		    //If phone number is correct then format it to (123)-456-7890
+		    if(matcher.matches())
+		    {
+		       System.out.println(matcher.replaceFirst("($1) $2-$3"));
+		    }
+		    else {
+		    	throw new PersonException(this, "Wrong format for phone number");
+		    }
+			
+		}
+		finally {
+			
+		}
 	}
 
 	public void PrintName() {

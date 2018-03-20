@@ -7,16 +7,17 @@ import com.cisc181.eNums.eMajor;
 
 public class Student extends Person {
 
-	private String Major;
+	private eMajor eMajor;
 	private UUID StudentID;
 	
-	public String getMajor ( )
+	public eMajor getMajor()
     {
-        return this.Major;
+		this.eMajor = eMajor;
+		return eMajor;
     }
     public void setMajor (String Major)
     {
-        this.Major = Major;    
+        this.eMajor = eMajor;    
     }
     
     public UUID getStudentID(){
@@ -24,11 +25,11 @@ public class Student extends Person {
     }
     
 	public Student(String FirstName, String MiddleName, String LastName,Date DOB, String Major,
-			String Address, String Phone_number, String Email)
+			String Address, String Phone_number, String Email) throws PersonException
 	{
 		super(FirstName, MiddleName, LastName, DOB, Address, Phone_number, Email);
 		this.StudentID = UUID.randomUUID();
-		this.Major = Major;
+		this.eMajor = eMajor;
 		
 	}
 	
